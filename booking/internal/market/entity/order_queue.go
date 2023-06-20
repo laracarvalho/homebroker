@@ -1,4 +1,4 @@
-package market
+package entity
 
 type OrderQueue struct {
 	Orders []*Order

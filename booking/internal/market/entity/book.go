@@ -1,4 +1,4 @@
-package market
+package entity
 
 import (
 	"container/heap"
@@ -25,18 +25,27 @@ func NewBook(orderChan chan *Order, orderChanOut chan *Order, wg *sync.WaitGroup
 }
 
 func (b *Book) Trade() {
-	buyOrders := NewOrderQueue()
-	sellOrders := NewOrderQueue()
-
-	heap.Init(buyOrders)
-	heap.Init(sellOrders)
+	buyOrders := make(map[string]*OrderQueue)
+	sellOrders := make(map[string]*OrderQueue)
 
 	for order := range b.OrdersChan {
+		asset := order.Asset.ID
+
+		if buyOrders[asset] == nil {
+			buyOrders[asset] = NewOrderQueue()
+			heap.Init(buyOrders[asset])
+		}
+
+		if sellOrders[asset] == nil {
+			sellOrders[asset] = NewOrderQueue()
+			heap.Init(sellOrders[asset])
+		}
+
 		switch order.OrderType {
 		case "BUY":
-			b.Buy(buyOrders, sellOrders, order)
+			b.Buy(buyOrders[asset], sellOrders[asset], order)
 		case "SELL":
-			b.Sell(buyOrders, sellOrders, order)
+			b.Sell(buyOrders[asset], sellOrders[asset], order)
 		default:
 			fmt.Printf("No Order Type known: %s", order.OrderType)
 		}

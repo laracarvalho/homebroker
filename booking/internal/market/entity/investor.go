@@ -1,4 +1,4 @@
-package market
+package entity
 
 type Investor struct {
 	ID            string
