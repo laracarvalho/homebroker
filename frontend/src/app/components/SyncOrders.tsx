@@ -1,6 +1,7 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { revalidateTag } from "next/cache"
+import { PropsWithChildren, startTransition } from "react";
 import useSWRSubscription, { SWRSubscriptionOptions } from "swr/subscription";
 
 export function SyncOrders(props: PropsWithChildren<{ wallet_id: string }>) {
@@ -13,13 +14,18 @@ export function SyncOrders(props: PropsWithChildren<{ wallet_id: string }>) {
         console.log(event);
         const orderCreated = JSON.parse(event.data);
         next(null, orderCreated);
-
+        startTransition(() => {
+          revalidateTag(`orders-wallet-${props.wallet_id}`);
+        });
       });
-
+      
       eventSource.addEventListener("order-updated", async (event) => {
         console.log(event);
         const orderUpdated = JSON.parse(event.data);
         next(null, orderUpdated);
+        startTransition(() => {
+          revalidateTag(`orders-wallet-${props.wallet_id}`);
+        });
       });
 
       eventSource.onerror = (event) => {
