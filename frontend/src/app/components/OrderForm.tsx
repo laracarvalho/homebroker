@@ -49,7 +49,7 @@ export function OrderForm(props: {
         <input name="type" type="hidden" defaultValue={"BUY"} />
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="shares" value="Quantidade" />
+            <Label htmlFor="shares" value="Quantity" />
           </div>
           <TextInput
             id="shares"
@@ -64,7 +64,7 @@ export function OrderForm(props: {
         <br />
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="shares" value="Preço R$" />
+            <Label htmlFor="shares" value="Price" />
           </div>
           <TextInput
             id="price"
@@ -78,7 +78,7 @@ export function OrderForm(props: {
         </div>
         <br />
         <Button type="submit" color={props.type === "BUY" ? "green" : "red"}>
-          Confirmar {props.type === "BUY" ? "compra" : "venda"}
+          Confirm {props.type === "BUY" ? "purchase" : "sale"}
         </Button>
       </form>
     </div>

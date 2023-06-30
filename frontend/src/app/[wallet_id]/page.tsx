@@ -7,7 +7,7 @@ export default async function HomePage({
 }) {
 	return (
 		<div>
-			<h1>Meus investimentos</h1>
+			<h1>My Wallet</h1>
       <MyWallet wallet_id={params.wallet_id}></MyWallet>
 		</div>
 	);

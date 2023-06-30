@@ -6,7 +6,6 @@ import {
 } from "../../../components/flowbite-components";
 import MyOrders from "../../../components/MyOrders";
 import { OrderForm } from "../../../components/OrderForm";
-import { HiShoppingCart, HiArrowUp } from "../../../components/react-icons/hi";
 import { SyncOrders } from "../../../components/SyncOrders";
 
 export default async function HomeBrokerPage({
@@ -31,14 +30,14 @@ export default async function HomeBrokerPage({
               }}
             >
               <TabsGroup aria-label="Default tabs" style="pills">
-                <TabsItem active title="Comprar" icon={HiShoppingCart}>
+                <TabsItem active title="Buy">
                   <OrderForm
                     wallet_id={params.wallet_id}
                     asset_id={params.asset_id}
                     type="BUY"
                   />
                 </TabsItem>
-                <TabsItem title="Vender" icon={HiArrowUp}>
+                <TabsItem title="Sell">
                   <OrderForm
                     wallet_id={params.wallet_id}
                     asset_id={params.asset_id}
@@ -66,7 +65,8 @@ export default async function HomeBrokerPage({
           </div>
         </div>
         <div className="col-span-3 flex flex-grow">
-          <ChartComponent />
+          chart here
+          {/* <ChartComponent /> */}
         </div>
       </div>
     </main>
