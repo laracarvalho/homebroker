@@ -6,6 +6,7 @@ A home broker simulator consisting in a booking application written in Go, a bac
 
 - Booking: an application written in Go that simulates trading operations and runs indefinetely in the background writing operations to Apache Kafka.
 - Backend: an API using NestJS that receives operations from Apache Kafka and allows for usage by the frontend.
+- Frontend: a simple front that allows users to do BUY/SELL operations and see their asset's history. 
 
 
 ## Installation
