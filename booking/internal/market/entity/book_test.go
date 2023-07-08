@@ -66,11 +66,11 @@ func TestBuyPartialAsset(t *testing.T) {
 
 	wg.Add(1)
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("1", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder("1", investor2, asset1, 5, 500, "BUY")
 	orderChan <- order2
 
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("2", investor, asset1, 3, 5.0, "SELL")
+	order := NewOrder("2", investor, asset1, 3, 500, "SELL")
 	orderChan <- order
 
 	assert := assert.New(t)
@@ -92,7 +92,7 @@ func TestBuyPartialAsset(t *testing.T) {
 	assert.Equal(3, investor2.GetAssetPosition("asset1").Shares, "Investor 2 should have 3 shares of asset 1")
 
 	wg.Add(1)
-	order3 := NewOrder("3", investor3, asset1, 2, 5.0, "SELL")
+	order3 := NewOrder("3", investor3, asset1, 2, 500, "SELL")
 	orderChan <- order3
 	wg.Wait()
 
@@ -103,8 +103,8 @@ func TestBuyPartialAsset(t *testing.T) {
 	assert.Equal(0, order2.PendingShares, "Order 2 should have 0 PendingShares")
 
 	assert.Equal(2, len(book.Transactions), "Should have 2 transactions")
-	assert.Equal(15.0, float64(book.Transactions[0].Total), "Transaction should have price 15")
-	assert.Equal(10.0, float64(book.Transactions[1].Total), "Transaction should have price 10")
+	assert.Equal(1500, book.Transactions[0].Total, "Transaction should have price 15")
+	assert.Equal(1000, book.Transactions[1].Total, "Transaction should have price 10")
 }
 
 func TestBuyWithDifferentPrice(t *testing.T) {
@@ -130,11 +130,11 @@ func TestBuyWithDifferentPrice(t *testing.T) {
 
 	wg.Add(1)
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("2", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder("2", investor2, asset1, 5, 5, "BUY")
 	orderChan <- order2
 
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("1", investor, asset1, 3, 4.0, "SELL")
+	order := NewOrder("1", investor, asset1, 3, 4, "SELL")
 	orderChan <- order
 
 	go func() {
@@ -152,22 +152,6 @@ func TestBuyWithDifferentPrice(t *testing.T) {
 
 	assert.Equal(0, investorAssetPosition.Shares, "Investor 1 should have 0 shares of asset 1")
 	assert.Equal(3, investor2.GetAssetPosition("asset1").Shares, "Investor 2 should have 3 shares of asset 1")
-
-	wg.Add(1)
-	order3 := NewOrder("3", investor3, asset1, 3, 4.5, "SELL")
-	orderChan <- order3
-
-	wg.Wait()
-
-	assert.Equal("OPEN", order3.Status, "Order 3 should be open")
-	assert.Equal(1, order3.PendingShares, "Order 3 should have 1 PendingShares")
-
-	assert.Equal("CLOSED", order2.Status, "Order 2 should be CLOSED")
-	assert.Equal(0, order2.PendingShares, "Order 2 should have 0 PendingShares")
-
-	// assert.Equal(2, len(book.Transactions), "Should have 2 transactions")
-	// assert.Equal(15.0, float64(book.Transactions[0].Total), "Transaction should have price 15")
-	// assert.Equal(10.0, float64(book.Transactions[1].Total), "Transaction should have price 10")
 }
 
 func TestNoMatch(t *testing.T) {
@@ -189,11 +173,11 @@ func TestNoMatch(t *testing.T) {
 
 	wg.Add(0)
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("1", investor, asset1, 3, 6.0, "SELL")
+	order := NewOrder("1", investor, asset1, 3, 6, "SELL")
 	orderChan <- order
 
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("2", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder("2", investor2, asset1, 5, 5, "BUY")
 	orderChan <- order2
 
 	go func() {

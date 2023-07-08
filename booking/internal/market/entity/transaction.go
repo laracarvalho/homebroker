@@ -11,13 +11,13 @@ type Transaction struct {
 	SellingOrder *Order
 	BuyingOrder  *Order
 	Shares       int
-	Price        float64
-	Total        float64
+	Price        int
+	Total        int
 	DateTime     time.Time
 }
 
-func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transaction {
-	total := float64(shares) * price
+func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price int) *Transaction {
+	total := shares * price
 	return &Transaction{
 		ID:           uuid.New().String(),
 		SellingOrder: sellingOrder,
@@ -29,8 +29,8 @@ func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price f
 	}
 }
 
-func (t *Transaction) CalculateTotal(shares int, price float64) {
-	t.Total = float64(t.Shares) * t.Price
+func (t *Transaction) CalculateTotal(shares int, price int) {
+	t.Total = t.Shares * t.Price
 }
 
 func (t *Transaction) CloseBuyOrder() {
