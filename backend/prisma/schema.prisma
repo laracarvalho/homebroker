@@ -11,7 +11,7 @@ datasource db {
 model Asset {
   id           String        @id @map("_id")
   symbol       String
-  price        Float
+  price        Int
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   WalletAssets WalletAsset[]
@@ -47,7 +47,7 @@ model Order {
   Asset        Asset         @relation(fields: [asset_id], references: [id])
   asset_id     String
   shares       Int           @db.Int
-  price        Float
+  price        Int
   type         OrderType
   status       OrderStatus
   partial      Int           @db.Int
@@ -76,7 +76,7 @@ model Transaction {
   related_investor_id   String
   broker_transaction_id String
   shares                Int      @db.Int
-  price                 Float
+  price                 Int
   created_at            DateTime @default(now())
   updated_at            DateTime @updatedAt
 }
